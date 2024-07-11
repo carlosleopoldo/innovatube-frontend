@@ -52,10 +52,28 @@
                 id="name"
                 [(ngModel)]="name"
                 name="name"
+                pInputText
+                placeholder="Nombre completo"
                 required
-                class="block w-full rounded-lg border border-slate-300 bg-slate-50 p-2.5 text-slate-900 focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white dark:placeholder-slate-400 dark:focus:border-primary-500 dark:focus:ring-primary-500 sm:text-sm"
-                placeholder="nombre completo"
+                class="w-full"
+              />
+            </div>
+            <div>
+              <label
+                for="email"
+                class="mb-2 block text-sm font-medium text-slate-900 dark:text-white"
+              >
+                Tu email
+              </label>
+              <input
+                type="email"
+                id="email"
+                [(ngModel)]="email"
+                name="email"
+                pInputText
+                placeholder="Email"
                 required
+                class="w-full"
               />
             </div>
             <div>
@@ -70,10 +88,10 @@
                 id="user"
                 [(ngModel)]="user"
                 name="user"
+                pInputText
+                placeholder="Usuario"
                 required
-                class="block w-full rounded-lg border border-slate-300 bg-slate-50 p-2.5 text-slate-900 focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white dark:placeholder-slate-400 dark:focus:border-primary-500 dark:focus:ring-primary-500 sm:text-sm"
-                placeholder="usuario"
-                required
+                class="w-full"
               />
             </div>
             <div>
@@ -83,14 +101,37 @@
               >
                 Elige una contraseña
               </label>
+              <p-password
+                inputId="password"
+                [required]="true"
+                [(ngModel)]="password"
+                placeholder="Contraseña"
+                [feedback]="true"
+                [toggleMask]="true"
+                promptLabel="Elige una contraseña"
+                weakLabel="Muy simple"
+                mediumLabel="Complejidad regular"
+                strongLabel="Contraseña fuerte"
+                [style]="{ width: '100%' }"
+                [inputStyle]="{ width: '100%' }"
+              />
+            </div>
+            <div>
+              <label
+                for="password_repeat"
+                class="mb-2 block text-sm font-medium text-slate-900 dark:text-white"
+              >
+                Repite la contraseña
+              </label>
               <input
                 type="password"
-                id="password"
-                [(ngModel)]="password"
-                name="password"
+                id="password_repeat"
+                [(ngModel)]="password_repeat"
+                name="password_repeat"
+                pInputText
+                placeholder="Repite la contraseña"
                 required
-                placeholder="contraseña"
-                class="block w-full rounded-lg border border-slate-300 bg-slate-50 p-2.5 text-slate-900 focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white dark:placeholder-slate-400 dark:focus:border-primary-500 dark:focus:ring-primary-500 sm:text-sm"
+                class="w-full"
               />
             </div>
             <div class="pt-2">

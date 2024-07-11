@@ -55,17 +55,23 @@ export class AuthService {
       );
   }
 
-  register(name:string, user: string, password: string): Observable<any> {
+  register(
+    name: string,
+    email: string,
+    user: string,
+    password: string
+  ): Observable<any> {
     return this.http
       .post<{ data: any }>(`${this.apiUrl}/register`, {
         name: name,
+        email: email,
         user: user,
         password: password,
       })
       .pipe(
         tap((response) => {
           if (!response.data) {
-            throw new Error("No se pudo registrar el usuario");
+            throw new Error('No se pudo registrar el usuario');
           }
         }),
         catchError((error) => {

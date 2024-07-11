@@ -46,8 +46,6 @@ export class LoginComponent implements OnDestroy {
         this.cdr.detectChanges();
       },
       complete: () => {
-        // Esta función completa es opcional, pero debes proporcionarla para satisfacer la interfaz Observer<any>
-        // Puedes dejarla vacía si no necesitas realizar ninguna acción específica al completar la suscripción
       },
     } as Observer<any>);
   }

@@ -27,10 +27,10 @@ export class AuthService {
     }
   }
 
-  login(username: string, password: string): Observable<any> {
+  login(user: string, password: string): Observable<any> {
     return this.http
       .post<{ token: string }>(`${this.apiUrl}/login`, {
-        user: username,
+        user: user,
         password: password,
       })
       .pipe(
@@ -44,6 +44,28 @@ export class AuthService {
             this.userDataSignal.set(decodedToken);
             // Marcamos al usuario como autenticado
             this.loggedInSignal.set(true);
+          }
+        }),
+        catchError((error) => {
+          const errorMessage = error?.message
+            ? error.message
+            : 'Ha ocurrido un error desconocido';
+          return throwError(() => new Error(errorMessage));
+        })
+      );
+  }
+
+  register(name:string, user: string, password: string): Observable<any> {
+    return this.http
+      .post<{ data: any }>(`${this.apiUrl}/register`, {
+        name: name,
+        user: user,
+        password: password,
+      })
+      .pipe(
+        tap((response) => {
+          if (!response.data) {
+            throw new Error("No se pudo registrar el usuario");
           }
         }),
         catchError((error) => {

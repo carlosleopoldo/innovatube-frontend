@@ -16,7 +16,7 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './login.component.scss',
 })
 export class LoginComponent implements OnDestroy {
-  username: string = '';
+  user: string = '';
   password: string = '';
   errorMessage: string = '';
   messages: Message[] = [];
@@ -29,7 +29,7 @@ export class LoginComponent implements OnDestroy {
   ) {}
 
   login(): void {
-    this.authService.login(this.username, this.password).subscribe({
+    this.authService.login(this.user, this.password).subscribe({
       next: () => {
         // Navegar a la página protegida después de iniciar sesión exitosamente
         this.router.navigate(['/videos']);

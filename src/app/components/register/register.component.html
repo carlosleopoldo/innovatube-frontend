@@ -1,1 +1,123 @@
-<p>register works!</p>
+<main class="bg-slate-50 dark:bg-slate-900">
+  <div
+    class="mx-auto mt-1 flex flex-col items-center justify-center px-6 pt-8 dark:bg-slate-900 md:h-screen"
+  >
+    <a
+      routerLink="/"
+      class="mb-6 flex cursor-pointer items-center justify-center text-2xl font-semibold dark:text-white lg:mb-8"
+    >
+      <img
+        src="/assets/images/innovatube.png"
+        class="h-10 w-10 rounded-md"
+        alt="InnovaTube Logo"
+      />
+      <span
+        class="ml-1 inline-block self-center whitespace-nowrap text-4xl font-medium leading-8 text-primary-600 dark:text-white"
+      >
+        <span class="text-yellow-600">Innova</span
+        ><span class="text-red-400 dark:text-white">Tube</span>
+      </span>
+    </a>
+
+    <div class="w-full flex-1">
+      <div
+        class="w-full items-center justify-center rounded-lg bg-white shadow dark:bg-slate-800 md:mt-0 lg:flex lg:max-w-screen-lg xl:p-0 mx-auto"
+      >
+        <div class="hidden w-2/4 lg:flex">
+          <img
+            class="rounded-l-lg"
+            src="assets/images/register.jpg"
+            alt="Inicio de sesión"
+          />
+        </div>
+        <div class="w-full space-y-8 p-6 sm:p-8 lg:p-16 lg:py-0">
+          <h2
+            class="text-2xl font-medium text-primary-700 dark:text-white lg:text-3xl"
+          >
+            Registro de nuevo usuario
+          </h2>
+          <form class="space-y-6 py-8" (submit)="register()">
+            @if (messages.length) {
+            <p-messages [(value)]="messages" [enableService]="false" />
+            }
+            <div>
+              <label
+                for="user"
+                class="mb-2 block text-sm font-medium text-slate-900 dark:text-white"
+              >
+                Tu nombre completo
+              </label>
+              <input
+                type="text"
+                id="name"
+                [(ngModel)]="name"
+                name="name"
+                required
+                class="block w-full rounded-lg border border-slate-300 bg-slate-50 p-2.5 text-slate-900 focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white dark:placeholder-slate-400 dark:focus:border-primary-500 dark:focus:ring-primary-500 sm:text-sm"
+                placeholder="nombre completo"
+                required
+              />
+            </div>
+            <div>
+              <label
+                for="user"
+                class="mb-2 block text-sm font-medium text-slate-900 dark:text-white"
+              >
+                Elige un nombre de usuario
+              </label>
+              <input
+                type="text"
+                id="user"
+                [(ngModel)]="user"
+                name="user"
+                required
+                class="block w-full rounded-lg border border-slate-300 bg-slate-50 p-2.5 text-slate-900 focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white dark:placeholder-slate-400 dark:focus:border-primary-500 dark:focus:ring-primary-500 sm:text-sm"
+                placeholder="usuario"
+                required
+              />
+            </div>
+            <div>
+              <label
+                for="password"
+                class="mb-2 block text-sm font-medium text-slate-900 dark:text-white"
+              >
+                Elige una contraseña
+              </label>
+              <input
+                type="password"
+                id="password"
+                [(ngModel)]="password"
+                name="password"
+                required
+                placeholder="contraseña"
+                class="block w-full rounded-lg border border-slate-300 bg-slate-50 p-2.5 text-slate-900 focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white dark:placeholder-slate-400 dark:focus:border-primary-500 dark:focus:ring-primary-500 sm:text-sm"
+              />
+            </div>
+            <div class="pt-2">
+              <p-button
+                type="submit"
+                label="Crear nuevo usuario"
+                icon="pi pi-check"
+                class="btn-submit"
+              ></p-button>
+            </div>
+            <div class="text-center pt-2">
+              <p-button
+                routerLink="/login"
+                [text]="true"
+                severity="secondary"
+                class="btn-submit"
+                icon="pi"
+              >
+                Iniciar sesión
+              </p-button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <p class="p-2 pb-8 text-center text-xs text-slate-600 dark:text-slate-500">
+      InnovaTube es un desarrollo de Carlos Leopoldo Magaña Zavala
+    </p>
+  </div>
+</main>

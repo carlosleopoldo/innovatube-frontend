@@ -1,4 +1,9 @@
 import { registerLocaleData } from '@angular/common';
+import {
+  provideHttpClient,
+  withInterceptors,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import localeEsMx from '@angular/common/locales/es-MX';
 import {
   ApplicationConfig,
@@ -10,6 +15,7 @@ import { provideRouter, withHashLocation } from '@angular/router';
 import { JwtModule } from '@auth0/angular-jwt';
 
 import { routes } from './app.routes';
+import { authInterceptor } from './interceptors/auth.interceptor';
 
 registerLocaleData(localeEsMx, 'es-MX');
 
@@ -29,5 +35,9 @@ export const appConfig: ApplicationConfig = {
       })
     ),
     { provide: LOCALE_ID, useValue: 'es-MX' },
+    provideHttpClient(
+      withInterceptors([authInterceptor]),
+      withInterceptorsFromDi()
+    ),
   ],
 };

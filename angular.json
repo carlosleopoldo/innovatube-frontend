@@ -27,7 +27,8 @@
             "styles": [
               "src/styles.scss",
               "node_modules/primeng/resources/themes/aura-light-blue/theme.css",
-              "node_modules/primeng/resources/primeng.min.css"
+              "node_modules/primeng/resources/primeng.min.css",
+              "node_modules/primeicons/primeicons.css"
             ],
             "scripts": []
           },
@@ -53,8 +54,8 @@
               "sourceMap": true,
               "fileReplacements": [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.dev.ts"
+                  "replace": "src/app/environments/environment.ts",
+                  "with": "src/app/environments/environment.dev.ts"
                 }
               ]
             }
@@ -89,7 +90,8 @@
             "styles": [
               "src/styles.scss",
               "node_modules/primeng/resources/themes/aura-light-blue/theme.css",
-              "node_modules/primeng/resources/primeng.min.css"
+              "node_modules/primeng/resources/primeng.min.css",
+              "node_modules/primeicons/primeicons.css"
             ],
             "scripts": []
           }

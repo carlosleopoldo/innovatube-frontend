@@ -1,1 +1,23 @@
-<p>not-found works!</p>
+<main class="bg-slate-50 dark:bg-slate-900">
+  <div
+    class="mx-auto flex h-screen flex-col items-center justify-center px-6 xl:px-0 dark:bg-slate-900"
+  >
+    <div class="block md:max-w-lg">
+      <img src="/images/illustrations/404.svg" alt="404" class="w-96" />
+    </div>
+    <div class="text-center xl:max-w-4xl">
+      <h1
+        class="mb-3 text-2xl font-bold leading-tight text-slate-900 sm:text-3xl lg:text-4xl dark:text-white"
+      >
+        Página no encontrada
+      </h1>
+      <p
+        class="mb-5 text-base font-normal text-slate-500 md:text-lg dark:text-slate-400"
+      >
+        Al parecer la dirección de la página que buscas no existe, puedes ir a
+        nuestra página principal para tratar de encontrar lo que buscas.
+      </p>
+      <p-button pRipple routerLink="/videos" label="Ir a página principal" icon="pi pi-chevron-left" />
+    </div>
+  </div>
+</main>

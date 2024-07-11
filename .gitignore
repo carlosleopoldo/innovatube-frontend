@@ -1,5 +1,4 @@
 # Angular compilado
-/dist
 /tmp
 /out-tsc
 /bazel-out

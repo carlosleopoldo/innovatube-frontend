@@ -1,14 +1,17 @@
-import { Component, OnDestroy } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
-import { Observer, Subscription } from 'rxjs';
+import { ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
+import { Router, RouterLink } from '@angular/router';
+import { Message } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
+import { MessagesModule } from 'primeng/messages';
+import { Observer, Subscription } from 'rxjs';
+
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, RouterLink, ButtonModule],
+  imports: [FormsModule, RouterLink, ButtonModule, MessagesModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
@@ -16,9 +19,14 @@ export class LoginComponent implements OnDestroy {
   username: string = '';
   password: string = '';
   errorMessage: string = '';
+  messages: Message[] = [];
   private subscription: Subscription = new Subscription();
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   login(): void {
     this.authService.login(this.username, this.password).subscribe({
@@ -27,10 +35,15 @@ export class LoginComponent implements OnDestroy {
         this.router.navigate(['/videos']);
       },
       error: (error) => {
-        // Manejar errores de autenticación
-        this.errorMessage = error?.message
-          ? error.message
-          : 'Credenciales incorrectas. Por favor, inténtalo de nuevo.';
+        this.messages = [
+          {
+            severity: 'error',
+            detail: error?.message
+              ? error.message
+              : 'Credenciales incorrectas. Por favor, inténtalo de nuevo.',
+          },
+        ];
+        this.cdr.detectChanges();
       },
       complete: () => {
         // Esta función completa es opcional, pero debes proporcionarla para satisfacer la interfaz Observer<any>

@@ -37,12 +37,8 @@
             Inicio de sesión
           </h2>
           <form class="space-y-6 py-8" (submit)="login()">
-            @if (errorMessage) {
-            <div
-              class="rounded-md border border-red-500 bg-red-200 px-4 py-2 text-sm text-red-500"
-            >
-              {{ errorMessage }}
-            </div>
+            @if (messages.length) {
+            <p-messages [(value)]="messages" [enableService]="false" />
             }
             <div>
               <label

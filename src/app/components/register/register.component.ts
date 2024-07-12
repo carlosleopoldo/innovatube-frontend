@@ -6,6 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { RecaptchaFormsModule, RecaptchaModule } from 'ng-recaptcha';
 import { Message } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
@@ -26,6 +27,8 @@ import { passwordMatchValidator } from '../../validators/password-match.validato
     MessagesModule,
     PasswordModule,
     InputTextModule,
+    RecaptchaModule,
+    RecaptchaFormsModule,
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
@@ -34,6 +37,7 @@ export class RegisterComponent implements OnDestroy {
   registerForm: FormGroup;
   messages: Message[] = [];
   private subscription: Subscription = new Subscription();
+  recaptchaToken: string | null = null;
 
   constructor(
     private authService: AuthService,
@@ -53,20 +57,10 @@ export class RegisterComponent implements OnDestroy {
           Validators.minLength(8),
         ]),
         password_repeat: new FormControl('', Validators.required),
+        recaptcha: new FormControl('', Validators.required),
       },
       { validators: passwordMatchValidator },
     );
-  }
-
-  passwordMatchValidator(form: FormGroup) {
-    const password = form.get('password')?.value;
-    const passwordRepeat = form.get('password_repeat')?.value;
-    if (password !== passwordRepeat) {
-      form.get('password_repeat')?.setErrors({ mismatch: true });
-    } else {
-      form.get('password_repeat')?.setErrors(null);
-    }
-    return null;
   }
 
   register(): void {
@@ -81,7 +75,8 @@ export class RegisterComponent implements OnDestroy {
       return;
     }
 
-    const { name, email, user, password } = this.registerForm.value;
+    const { name, email, user, password, recaptcha } = this.registerForm.value;
+    console.log('this.registerForm.value', this.registerForm.value);
 
     this.authService.register(name, email, user, password).subscribe({
       next: () => {
@@ -101,6 +96,11 @@ export class RegisterComponent implements OnDestroy {
       },
       complete: () => {},
     } as Observer<any>);
+  }
+
+  onRecaptchaResolved(token: string | null): void {
+    this.recaptchaToken = token;
+    this.registerForm.get('recaptcha')?.setValue(token);
   }
 
   ngOnDestroy(): void {

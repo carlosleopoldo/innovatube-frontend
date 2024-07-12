@@ -17,6 +17,8 @@ import { JwtModule } from '@auth0/angular-jwt';
 
 import { routes } from './app.routes';
 import { authInterceptor } from './interceptors/auth.interceptor';
+import { RECAPTCHA_SETTINGS, RecaptchaSettings } from 'ng-recaptcha';
+import { environment } from './environments/environment';
 
 registerLocaleData(localeEsMx, 'es-MX');
 
@@ -39,7 +41,13 @@ export const appConfig: ApplicationConfig = {
     { provide: LOCALE_ID, useValue: 'es-MX' },
     provideHttpClient(
       withInterceptors([authInterceptor]),
-      withInterceptorsFromDi()
+      withInterceptorsFromDi(),
     ),
+    {
+      provide: RECAPTCHA_SETTINGS,
+      useValue: {
+        siteKey: environment.recaptchaKey,
+      } as RecaptchaSettings,
+    },
   ],
 };

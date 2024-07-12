@@ -41,10 +41,9 @@
             class="space-y-4 py-8"
             (ngSubmit)="register()"
           >
-            <p-messages
-              [(value)]="messages"
-              *ngIf="messages.length > 0"
-            ></p-messages>
+            @if (messages.length > 0) {
+              <p-messages [(value)]="messages"></p-messages>
+            }
             <div>
               <label
                 for="name"
@@ -131,7 +130,7 @@
                 >
                   @if (registerForm.get("user")?.errors?.["required"]) {
                     El nombre de usuario es requerido
-                  } @else if(registerForm.get("user")?.errors?.["minlength"]) {
+                  } @else if (registerForm.get("user")?.errors?.["minlength"]) {
                     El nombre de usuario debe contener al menos 4 caracteres
                   } @else {
                     Error en el campo
@@ -168,9 +167,11 @@
                 >
                   @if (registerForm.get("password")?.errors?.["required"]) {
                     La contraseña es requerida
-                  } @else if(registerForm.get("password")?.errors?.["minlength"]) {
+                  } @else if (
+                    registerForm.get("password")?.errors?.["minlength"]
+                  ) {
                     La contraseña debe contener al menos 8 caracteres
-                  }@else {
+                  } @else {
                     Error en el campo
                   }
                 </small>
@@ -216,6 +217,26 @@
                   class="mt-1 block text-xs text-red-600 dark:text-red-400"
                 >
                   Las contraseñas no coinciden.
+                </small>
+              }
+            </div>
+            <div>
+              <re-captcha
+                (resolved)="onRecaptchaResolved($event)"
+                formControlName="recaptcha"
+              ></re-captcha>
+              @if (
+                registerForm.get("recaptcha")?.invalid &&
+                registerForm.get("recaptcha")?.touched
+              ) {
+                <small
+                  class="mt-1 block text-xs text-red-600 dark:text-red-400"
+                >
+                  @if (registerForm.get("recaptcha")?.errors?.["required"]) {
+                    Completa el reCaptcha
+                  } @else {
+                    Error en el campo
+                  }
                 </small>
               }
             </div>

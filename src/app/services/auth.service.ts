@@ -83,6 +83,26 @@ export class AuthService {
       );
   }
 
+  forgotPassword(email: string): Observable<any> {
+    return this.http
+      .post<{ data: any }>(`${this.apiUrl}/forgot-password`, {
+        email: email,
+      })
+      .pipe(
+        tap((response) => {
+          if (!response.data) {
+            throw new Error('No se pudo solicitar cambio de contraseña');
+          }
+        }),
+        catchError((error) => {
+          const errorMessage = error?.error?.message
+            ? error.error.message
+            : 'Ha ocurrido un error desconocido';
+          return throwError(() => new Error(errorMessage));
+        }),
+      );
+  }
+
   logout(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('userData');

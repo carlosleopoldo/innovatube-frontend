@@ -1,10 +1,10 @@
 <main class="bg-slate-50 dark:bg-slate-900">
   <div
-    class="mx-auto flex flex-col items-center justify-center px-6 pt-8 dark:bg-slate-900 md:h-screen"
+    class="mx-auto flex flex-col items-center justify-center px-6 pt-8 md:h-screen dark:bg-slate-900"
   >
     <a
       routerLink="/"
-      class="mb-6 flex cursor-pointer items-center justify-center text-2xl font-semibold dark:text-white lg:mb-8"
+      class="mb-6 flex cursor-pointer items-center justify-center text-2xl font-semibold lg:mb-8 dark:text-white"
     >
       <img
         src="/assets/images/innovatube.png"
@@ -12,7 +12,7 @@
         alt="InnovaTube Logo"
       />
       <span
-        class="ml-1 inline-block self-center whitespace-nowrap text-4xl font-medium leading-8 text-primary-600 dark:text-white"
+        class="text-primary-600 ml-1 inline-block self-center whitespace-nowrap text-4xl font-medium leading-8 dark:text-white"
       >
         <span class="text-yellow-600">Innova</span
         ><span class="text-red-400 dark:text-white">Tube</span>
@@ -21,7 +21,7 @@
 
     <div class="w-full flex-1">
       <div
-        class="w-full items-center justify-center rounded-lg bg-white shadow dark:bg-slate-800 md:mt-0 lg:flex lg:max-w-screen-lg xl:p-0 mx-auto"
+        class="mx-auto w-full items-center justify-center rounded-lg bg-white shadow md:mt-0 lg:flex lg:max-w-screen-lg xl:p-0 dark:bg-slate-800"
       >
         <div class="hidden w-2/4 lg:flex">
           <img
@@ -32,13 +32,17 @@
         </div>
         <div class="w-full space-y-8 p-6 sm:p-8 lg:p-16 lg:py-0">
           <h2
-            class="text-2xl font-medium text-primary-700 dark:text-white lg:text-3xl"
+            class="text-primary-700 text-2xl font-medium lg:text-3xl dark:text-white"
           >
             Inicio de sesión
           </h2>
-          <form class="space-y-6 py-8" (submit)="login()">
+          <form
+            [formGroup]="loginForm"
+            class="space-y-6 py-8"
+            (submit)="login()"
+          >
             @if (messages.length) {
-            <p-messages [(value)]="messages" [enableService]="false" />
+              <p-messages [(value)]="messages" [enableService]="false" />
             }
             <div>
               <label
@@ -50,13 +54,26 @@
               <input
                 type="text"
                 id="user"
-                [(ngModel)]="user"
-                name="user"
+                formControlName="user"
+                pInputText
+                placeholder="Usuario"
                 required
-                class="block w-full rounded-lg border border-slate-300 bg-slate-50 p-2.5 text-slate-900 focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white dark:placeholder-slate-400 dark:focus:border-primary-500 dark:focus:ring-primary-500 sm:text-sm"
-                placeholder="usuario"
-                required
+                class="w-full"
               />
+              @if (
+                loginForm.get("user")?.invalid &&
+                loginForm.get("user")?.touched
+              ) {
+                <small
+                  class="mt-1 block text-xs text-red-600 dark:text-red-400"
+                >
+                  @if (loginForm.get("user")?.errors?.["required"]) {
+                    El nombre de usuario es requerido
+                  } @else {
+                    Error en el campo
+                  }
+                </small>
+              }
             </div>
             <div>
               <label
@@ -65,15 +82,30 @@
               >
                 Contraseña
               </label>
-              <input
-                type="password"
-                id="password"
-                [(ngModel)]="password"
-                name="password"
-                required
-                placeholder="contraseña"
-                class="block w-full rounded-lg border border-slate-300 bg-slate-50 p-2.5 text-slate-900 focus:border-primary-500 focus:ring-primary-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white dark:placeholder-slate-400 dark:focus:border-primary-500 dark:focus:ring-primary-500 sm:text-sm"
+              <p-password
+                inputId="password"
+                [required]="true"
+                formControlName="password"
+                placeholder="Contraseña"
+                [feedback]="false"
+                [toggleMask]="true"
+                [style]="{ width: '100%' }"
+                [inputStyle]="{ width: '100%' }"
               />
+              @if (
+                loginForm.get("password")?.invalid &&
+                loginForm.get("password")?.touched
+              ) {
+                <small
+                  class="mt-1 block text-xs text-red-600 dark:text-red-400"
+                >
+                  @if (loginForm.get("password")?.errors?.["required"]) {
+                    La contraseña es requerida
+                  } @else {
+                    Error en el campo
+                  }
+                </small>
+              }
             </div>
             <div class="pt-2">
               <p-button
@@ -81,9 +113,10 @@
                 label="Iniciar sesión"
                 icon="pi pi-check"
                 class="btn-submit"
+                [disabled]="loginForm.invalid"
               ></p-button>
             </div>
-            <div class="text-center pt-2">
+            <div class="pt-2 text-center">
               <p-button
                 routerLink="/register"
                 [text]="true"

@@ -58,6 +58,8 @@
                 placeholder="Nombre completo"
                 required
                 class="w-full"
+                [readonly]="loading"
+                [class.opacity-50]="loading"
               />
               @if (
                 registerForm.get("name")?.invalid &&
@@ -88,6 +90,8 @@
                 placeholder="Email"
                 required
                 class="w-full"
+                [readonly]="loading"
+                [class.opacity-50]="loading"
               />
               @if (
                 registerForm.get("email")?.invalid &&
@@ -120,6 +124,8 @@
                 placeholder="Usuario"
                 required
                 class="w-full"
+                [readonly]="loading"
+                [class.opacity-50]="loading"
               />
               @if (
                 registerForm.get("user")?.invalid &&
@@ -157,6 +163,7 @@
                 strongLabel="Contraseña fuerte"
                 [style]="{ width: '100%' }"
                 [inputStyle]="{ width: '100%' }"
+                [disabled]="loading"
               />
               @if (
                 registerForm.get("password")?.invalid &&
@@ -192,6 +199,7 @@
                 [toggleMask]="true"
                 [style]="{ width: '100%' }"
                 [inputStyle]="{ width: '100%' }"
+                [disabled]="loading"
               />
               @if (
                 registerForm.get("password_repeat")?.invalid &&
@@ -244,10 +252,11 @@
             <div class="pt-2">
               <p-button
                 type="submit"
-                label="Crear nuevo usuario"
+                [label]="loading ? 'Enviando' : 'Crear nuevo usuario'"
                 icon="pi pi-check"
                 class="btn-submit"
                 [disabled]="registerForm.invalid"
+                [loading]="loading"
               ></p-button>
             </div>
             <div class="pt-2 text-center">

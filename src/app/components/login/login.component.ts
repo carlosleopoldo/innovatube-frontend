@@ -33,6 +33,7 @@ export class LoginComponent implements OnDestroy {
   loginForm: FormGroup;
   messages: Message[] = [];
   private subscription: Subscription = new Subscription();
+  loading: boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -46,11 +47,14 @@ export class LoginComponent implements OnDestroy {
   }
 
   login(): void {
+    this.loading = true;
+
     const { user, password } = this.loginForm.value;
     this.authService.login(user, password).subscribe({
       next: () => {
-        // Navegar a la página protegida después de iniciar sesión exitosamente
         this.router.navigate(['/videos']);
+        this.loading = false;
+        this.cdr.detectChanges();
       },
       error: (error) => {
         this.messages = [
@@ -61,6 +65,7 @@ export class LoginComponent implements OnDestroy {
               : 'Credenciales incorrectas. Por favor, inténtalo de nuevo.',
           },
         ];
+        this.loading = false;
         this.cdr.detectChanges();
       },
       complete: () => {},

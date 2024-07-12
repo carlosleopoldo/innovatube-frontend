@@ -38,6 +38,7 @@ export class RegisterComponent implements OnDestroy {
   registerForm: FormGroup;
   messages: Message[] = [];
   private subscription: Subscription = new Subscription();
+  loading: boolean = false;
   recaptchaToken: string | null = null;
   siteKey: string = environment.recaptchaKey;
 
@@ -77,13 +78,14 @@ export class RegisterComponent implements OnDestroy {
       return;
     }
 
-    const { name, email, user, password, recaptcha } = this.registerForm.value;
-    console.log('this.registerForm.value', this.registerForm.value);
+    this.loading = true;
 
+    const { name, email, user, password } = this.registerForm.value;
     this.authService.register(name, email, user, password).subscribe({
       next: () => {
-        // Navegar a la página protegida después de iniciar sesión exitosamente
         this.router.navigate(['/login']);
+        this.loading = false;
+        this.cdr.detectChanges();
       },
       error: (error) => {
         this.messages = [
@@ -94,6 +96,7 @@ export class RegisterComponent implements OnDestroy {
               : 'Error al crear usuario. Por favor, inténtalo de nuevo.',
           },
         ];
+        this.loading = false;
         this.cdr.detectChanges();
       },
       complete: () => {},

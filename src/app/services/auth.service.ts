@@ -17,7 +17,7 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private jwtHelper: JwtHelperService
+    private jwtHelper: JwtHelperService,
   ) {
     // Verifica si el usuario está autenticado al inicializar el servicio
     this.checkAuthStatus();
@@ -47,11 +47,11 @@ export class AuthService {
           }
         }),
         catchError((error) => {
-          const errorMessage = error?.message
-            ? error.message
+          const errorMessage = error?.error?.message
+            ? error.error.message
             : 'Ha ocurrido un error desconocido';
           return throwError(() => new Error(errorMessage));
-        })
+        }),
       );
   }
 
@@ -59,7 +59,7 @@ export class AuthService {
     name: string,
     email: string,
     user: string,
-    password: string
+    password: string,
   ): Observable<any> {
     return this.http
       .post<{ data: any }>(`${this.apiUrl}/register`, {
@@ -75,11 +75,11 @@ export class AuthService {
           }
         }),
         catchError((error) => {
-          const errorMessage = error?.message
-            ? error.message
+          const errorMessage = error?.error?.message
+            ? error.error.message
             : 'Ha ocurrido un error desconocido';
           return throwError(() => new Error(errorMessage));
-        })
+        }),
       );
   }
 

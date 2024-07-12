@@ -15,7 +15,6 @@ import { Observer, Subscription } from 'rxjs';
 
 import { AuthService } from '../../services/auth.service';
 import { passwordMatchValidator } from '../../validators/password-match.validator';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-register',
@@ -27,7 +26,6 @@ import { CommonModule } from '@angular/common';
     MessagesModule,
     PasswordModule,
     InputTextModule,
-    CommonModule,
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
@@ -40,17 +38,20 @@ export class RegisterComponent implements OnDestroy {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
   ) {
     this.registerForm = new FormGroup(
       {
         name: new FormControl('', Validators.required),
         email: new FormControl('', [Validators.required, Validators.email]),
         user: new FormControl('', Validators.required),
-        password: new FormControl('', Validators.required),
+        password: new FormControl('', [
+          Validators.required,
+          Validators.minLength(8),
+        ]),
         password_repeat: new FormControl('', Validators.required),
       },
-      { validators: passwordMatchValidator }
+      { validators: passwordMatchValidator },
     );
   }
 

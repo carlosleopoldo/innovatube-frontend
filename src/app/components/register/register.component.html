@@ -233,6 +233,7 @@
                 (resolved)="onRecaptchaResolved($event)"
                 formControlName="recaptcha"
                 [siteKey]="siteKey"
+                class="flex justify-center"
               ></re-captcha>
               @if (
                 registerForm.get("recaptcha")?.invalid &&

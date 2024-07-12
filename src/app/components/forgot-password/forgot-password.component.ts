@@ -1,4 +1,3 @@
-
 import { ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
 import {
   FormControl,
@@ -7,6 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { RecaptchaFormsModule, RecaptchaModule } from 'ng-recaptcha';
 import { Message } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
@@ -14,6 +14,7 @@ import { MessagesModule } from 'primeng/messages';
 import { PasswordModule } from 'primeng/password';
 import { Observer, Subscription } from 'rxjs';
 
+import { environment } from '../../environments/environment';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -26,6 +27,8 @@ import { AuthService } from '../../services/auth.service';
     MessagesModule,
     PasswordModule,
     InputTextModule,
+    RecaptchaModule,
+    RecaptchaFormsModule,
   ],
   templateUrl: './forgot-password.component.html',
   styleUrl: './forgot-password.component.scss',
@@ -35,6 +38,8 @@ export class ForgotPasswordComponent implements OnDestroy {
   messages: Message[] = [];
   private subscription: Subscription = new Subscription();
   loading: boolean = false;
+  recaptchaToken: string | null = null;
+  siteKey: string = environment.recaptchaKey;
 
   constructor(
     private authService: AuthService,
@@ -43,6 +48,7 @@ export class ForgotPasswordComponent implements OnDestroy {
   ) {
     this.forgotPasswordForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
+      recaptcha: new FormControl('', Validators.required),
     });
   }
 
@@ -70,6 +76,11 @@ export class ForgotPasswordComponent implements OnDestroy {
       },
       complete: () => {},
     } as Observer<any>);
+  }
+
+  onRecaptchaResolved(token: string | null): void {
+    this.recaptchaToken = token;
+    this.forgotPasswordForm.get('recaptcha')?.setValue(token);
   }
 
   ngOnDestroy(): void {

@@ -45,6 +45,7 @@
     "typescript": "~5.4.2"
   },
   "resolutions": {
-    "rollup": "npm:@rollup/wasm-node"
+    "rollup": "npm:@rollup/wasm-node",
+    "ng-recaptcha": "13.2.1"
   }
 }

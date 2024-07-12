@@ -1,10 +1,10 @@
 <main class="bg-slate-50 dark:bg-slate-900">
   <div
-    class="mx-auto mt-1 flex flex-col items-center justify-center px-6 pt-8 dark:bg-slate-900 md:h-screen"
+    class="mx-auto flex flex-col items-center justify-center px-6 pt-8 md:h-screen dark:bg-slate-900"
   >
     <a
       routerLink="/"
-      class="mb-6 flex cursor-pointer items-center justify-center text-2xl font-semibold dark:text-white lg:mb-8"
+      class="mb-6 flex cursor-pointer items-center justify-center text-2xl font-semibold lg:mb-8 dark:text-white"
     >
       <img
         src="/assets/images/innovatube.png"
@@ -12,7 +12,7 @@
         alt="InnovaTube Logo"
       />
       <span
-        class="ml-1 inline-block self-center whitespace-nowrap text-4xl font-medium leading-8 text-primary-600 dark:text-white"
+        class="text-primary-600 ml-1 inline-block self-center whitespace-nowrap text-4xl font-medium leading-8 dark:text-white"
       >
         <span class="text-yellow-600">Innova</span
         ><span class="text-red-400 dark:text-white">Tube</span>
@@ -21,90 +21,132 @@
 
     <div class="w-full flex-1">
       <div
-        class="w-full items-center justify-center rounded-lg bg-white shadow dark:bg-slate-800 md:mt-0 lg:flex lg:max-w-screen-lg xl:p-0 mx-auto"
+        class="mx-auto w-full items-center justify-center rounded-lg bg-white shadow md:mt-0 lg:flex lg:max-w-screen-lg xl:p-0 dark:bg-slate-800"
       >
-        <div class="hidden w-2/4 lg:flex">
+        <div class="hidden w-2/4 lg:flex lg:h-full">
           <img
-            class="rounded-l-lg"
+            class="h-full w-full rounded-l-lg object-cover"
             src="assets/images/register.jpg"
             alt="Inicio de sesión"
           />
         </div>
-        <div class="w-full space-y-8 p-6 sm:p-8 lg:p-16 lg:py-0">
+        <div class="w-full space-y-4 p-6 sm:p-8 lg:h-full lg:p-16 lg:py-0">
           <h2
-            class="text-2xl font-medium text-primary-700 dark:text-white lg:text-3xl"
+            class="text-primary-700 pt-4 text-2xl font-medium lg:text-3xl dark:text-white"
           >
             Registro de nuevo usuario
           </h2>
-          <form class="space-y-6 py-8" (submit)="register()">
-            @if (messages.length) {
-            <p-messages [(value)]="messages" [enableService]="false" />
-            }
+          <form
+            [formGroup]="registerForm"
+            class="space-y-4 py-8"
+            (ngSubmit)="register()"
+          >
+            <p-messages
+              [(value)]="messages"
+              *ngIf="messages.length > 0"
+            ></p-messages>
             <div>
               <label
-                for="user"
+                for="name"
                 class="mb-2 block text-sm font-medium text-slate-900 dark:text-white"
+                >Tu nombre completo</label
               >
-                Tu nombre completo
-              </label>
               <input
                 type="text"
                 id="name"
-                [(ngModel)]="name"
-                name="name"
+                formControlName="name"
                 pInputText
                 placeholder="Nombre completo"
                 required
                 class="w-full"
               />
+              @if (
+                registerForm.get("name")?.invalid &&
+                registerForm.get("name")?.touched
+              ) {
+                <small
+                  class="mt-1 block text-xs text-red-600 dark:text-red-400"
+                >
+                  @if (registerForm.get("name")?.errors?.["required"]) {
+                    Tu nombre es requerido
+                  } @else {
+                    Error en el campo
+                  }
+                </small>
+              }
             </div>
             <div>
               <label
                 for="email"
                 class="mb-2 block text-sm font-medium text-slate-900 dark:text-white"
+                >Tu email</label
               >
-                Tu email
-              </label>
               <input
                 type="email"
                 id="email"
-                [(ngModel)]="email"
-                name="email"
+                formControlName="email"
                 pInputText
                 placeholder="Email"
                 required
                 class="w-full"
               />
+              @if (
+                registerForm.get("email")?.invalid &&
+                registerForm.get("email")?.touched
+              ) {
+                <small
+                  class="mt-1 block text-xs text-red-600 dark:text-red-400"
+                >
+                  @if (registerForm.get("email")?.errors?.["required"]) {
+                    Tu email es requerido
+                  } @else if (registerForm.get("email")?.errors?.["email"]) {
+                    Email inválido
+                  } @else {
+                    Error en el campo
+                  }
+                </small>
+              }
             </div>
             <div>
               <label
                 for="user"
                 class="mb-2 block text-sm font-medium text-slate-900 dark:text-white"
+                >Elige un nombre de usuario</label
               >
-                Elige un nombre de usuario
-              </label>
               <input
                 type="text"
                 id="user"
-                [(ngModel)]="user"
-                name="user"
+                formControlName="user"
                 pInputText
                 placeholder="Usuario"
                 required
                 class="w-full"
               />
+              @if (
+                registerForm.get("user")?.invalid &&
+                registerForm.get("user")?.touched
+              ) {
+                <small
+                  class="mt-1 block text-xs text-red-600 dark:text-red-400"
+                >
+                  @if (registerForm.get("user")?.errors?.["required"]) {
+                    El nombre de usuario es requerido
+                  } @else {
+                    Error en el campo
+                  }
+                </small>
+              }
             </div>
             <div>
               <label
                 for="password"
                 class="mb-2 block text-sm font-medium text-slate-900 dark:text-white"
+                >Elige una contraseña</label
               >
-                Elige una contraseña
-              </label>
               <p-password
                 inputId="password"
                 [required]="true"
-                [(ngModel)]="password"
+                formControlName="password"
                 placeholder="Contraseña"
                 [feedback]="true"
                 [toggleMask]="true"
@@ -115,24 +157,63 @@
                 [style]="{ width: '100%' }"
                 [inputStyle]="{ width: '100%' }"
               />
+              @if (
+                registerForm.get("password")?.invalid &&
+                registerForm.get("password")?.touched
+              ) {
+                <small
+                  class="mt-1 block text-xs text-red-600 dark:text-red-400"
+                >
+                  @if (registerForm.get("password")?.errors?.["required"]) {
+                    La contraseña es requerida
+                  } @else {
+                    Error en el campo
+                  }
+                </small>
+              }
             </div>
             <div>
               <label
                 for="password_repeat"
                 class="mb-2 block text-sm font-medium text-slate-900 dark:text-white"
+                >Repite la contraseña</label
               >
-                Repite la contraseña
-              </label>
-              <input
-                type="password"
-                id="password_repeat"
-                [(ngModel)]="password_repeat"
-                name="password_repeat"
-                pInputText
+              <p-password
+                inputId="password_repeat"
+                [required]="true"
+                formControlName="password_repeat"
                 placeholder="Repite la contraseña"
-                required
-                class="w-full"
+                [feedback]="false"
+                [toggleMask]="true"
+                [style]="{ width: '100%' }"
+                [inputStyle]="{ width: '100%' }"
               />
+              @if (
+                registerForm.get("password_repeat")?.invalid &&
+                registerForm.get("password_repeat")?.touched
+              ) {
+                <small
+                  class="mt-1 block text-xs text-red-600 dark:text-red-400"
+                >
+                  @if (
+                    registerForm.get("password_repeat")?.errors?.["required"]
+                  ) {
+                    La confirmación de la contraseña es requerida
+                  } @else {
+                    Error en el campo
+                  }
+                </small>
+              }
+              @if (
+                registerForm.errors?.["mismatch"] &&
+                registerForm.get("password_repeat")?.touched
+              ) {
+                <small
+                  class="mt-1 block text-xs text-red-600 dark:text-red-400"
+                >
+                  Las contraseñas no coinciden.
+                </small>
+              }
             </div>
             <div class="pt-2">
               <p-button
@@ -140,18 +221,18 @@
                 label="Crear nuevo usuario"
                 icon="pi pi-check"
                 class="btn-submit"
+                [disabled]="registerForm.invalid"
               ></p-button>
             </div>
-            <div class="text-center pt-2">
+            <div class="pt-2 text-center">
               <p-button
                 routerLink="/login"
                 [text]="true"
                 severity="secondary"
                 class="btn-submit"
                 icon="pi"
+                >Iniciar sesión</p-button
               >
-                Iniciar sesión
-              </p-button>
             </div>
           </form>
         </div>

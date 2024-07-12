@@ -11,6 +11,7 @@ import {
   LOCALE_ID,
   provideZoneChangeDetection,
 } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideRouter, withHashLocation } from '@angular/router';
 import { JwtModule } from '@auth0/angular-jwt';
 
@@ -27,13 +28,14 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes, withHashLocation()),
-    importProvidersFrom(
+    importProvidersFrom([
       JwtModule.forRoot({
         config: {
           tokenGetter: tokenGetter,
         },
-      })
-    ),
+      }),
+      BrowserAnimationsModule,
+    ]),
     { provide: LOCALE_ID, useValue: 'es-MX' },
     provideHttpClient(
       withInterceptors([authInterceptor]),

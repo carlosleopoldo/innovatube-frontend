@@ -79,6 +79,7 @@ export class RegisterComponent implements OnDestroy {
     }
 
     this.loading = true;
+    this.messages = [];
 
     const { name, email, user, password } = this.registerForm.value;
     this.authService.register(name, email, user, password).subscribe({

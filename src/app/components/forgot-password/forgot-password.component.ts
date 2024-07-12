@@ -53,7 +53,19 @@ export class ForgotPasswordComponent implements OnDestroy {
   }
 
   submitForm(): void {
+    if (this.forgotPasswordForm.invalid) {
+      this.messages = [
+        {
+          severity: 'error',
+          detail: 'Por favor, completa todos los campos correctamente.',
+        },
+      ];
+      this.cdr.detectChanges();
+      return;
+    }
+
     this.loading = true;
+    this.messages = [];
 
     const { email } = this.forgotPasswordForm.value;
     this.authService.forgotPassword(email).subscribe({

@@ -47,7 +47,19 @@ export class LoginComponent implements OnDestroy {
   }
 
   login(): void {
+    if (this.loginForm.invalid) {
+      this.messages = [
+        {
+          severity: 'error',
+          detail: 'Por favor, completa todos los campos correctamente.',
+        },
+      ];
+      this.cdr.detectChanges();
+      return;
+    }
+
     this.loading = true;
+    this.messages = [];
 
     const { user, password } = this.loginForm.value;
     this.authService.login(user, password).subscribe({

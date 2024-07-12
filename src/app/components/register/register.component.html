@@ -131,6 +131,8 @@
                 >
                   @if (registerForm.get("user")?.errors?.["required"]) {
                     El nombre de usuario es requerido
+                  } @else if(registerForm.get("user")?.errors?.["minlength"]) {
+                    El nombre de usuario debe contener al menos 4 caracteres
                   } @else {
                     Error en el campo
                   }

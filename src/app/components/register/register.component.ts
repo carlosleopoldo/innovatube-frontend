@@ -44,7 +44,10 @@ export class RegisterComponent implements OnDestroy {
       {
         name: new FormControl('', Validators.required),
         email: new FormControl('', [Validators.required, Validators.email]),
-        user: new FormControl('', Validators.required),
+        user: new FormControl('', [
+          Validators.required,
+          Validators.minLength(4),
+        ]),
         password: new FormControl('', [
           Validators.required,
           Validators.minLength(8),

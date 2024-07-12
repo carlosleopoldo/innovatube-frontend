@@ -92,7 +92,7 @@
                 [toggleMask]="true"
                 [style]="{ width: '100%' }"
                 [inputStyle]="{ width: '100%' }"
-                [disabled]="loading"
+                [class.opacity-50]="loading"
               />
               @if (
                 loginForm.get("password")?.invalid &&

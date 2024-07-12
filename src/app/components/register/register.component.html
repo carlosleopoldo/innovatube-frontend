@@ -163,7 +163,7 @@
                 strongLabel="Contraseña fuerte"
                 [style]="{ width: '100%' }"
                 [inputStyle]="{ width: '100%' }"
-                [disabled]="loading"
+                [class.opacity-50]="loading"
               />
               @if (
                 registerForm.get("password")?.invalid &&
@@ -199,7 +199,7 @@
                 [toggleMask]="true"
                 [style]="{ width: '100%' }"
                 [inputStyle]="{ width: '100%' }"
-                [disabled]="loading"
+                [class.opacity-50]="loading"
               />
               @if (
                 registerForm.get("password_repeat")?.invalid &&

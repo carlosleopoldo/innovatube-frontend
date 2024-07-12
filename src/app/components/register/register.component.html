@@ -224,6 +224,7 @@
               <re-captcha
                 (resolved)="onRecaptchaResolved($event)"
                 formControlName="recaptcha"
+                [siteKey]="siteKey"
               ></re-captcha>
               @if (
                 registerForm.get("recaptcha")?.invalid &&

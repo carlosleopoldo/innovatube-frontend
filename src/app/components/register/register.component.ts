@@ -14,6 +14,7 @@ import { MessagesModule } from 'primeng/messages';
 import { PasswordModule } from 'primeng/password';
 import { Observer, Subscription } from 'rxjs';
 
+import { environment } from '../../environments/environment';
 import { AuthService } from '../../services/auth.service';
 import { passwordMatchValidator } from '../../validators/password-match.validator';
 
@@ -38,6 +39,7 @@ export class RegisterComponent implements OnDestroy {
   messages: Message[] = [];
   private subscription: Subscription = new Subscription();
   recaptchaToken: string | null = null;
+  siteKey: string = environment.recaptchaKey;
 
   constructor(
     private authService: AuthService,

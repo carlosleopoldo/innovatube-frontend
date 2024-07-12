@@ -103,6 +103,44 @@ export class AuthService {
       );
   }
 
+  verifyToken(token: string): Observable<any> {
+    return this.http
+      .get<{ data: any }>(`${this.apiUrl}/verify-token/${token}`)
+      .pipe(
+        tap((response) => {
+          if (!response.data) {
+            throw new Error('Token inválido o expirado');
+          }
+        }),
+        catchError((error) => {
+          const errorMessage = error?.error?.message
+            ? error.error.message
+            : 'Ha ocurrido un error desconocido';
+          return throwError(() => new Error(errorMessage));
+        }),
+      );
+  }
+
+  resetPassword(token: string, password: string): Observable<any> {
+    return this.http
+      .post<{
+        data: any;
+      }>(`${this.apiUrl}/reset-password`, { token, password })
+      .pipe(
+        tap((response) => {
+          if (!response.data) {
+            throw new Error('No se pudo resetear la contraseña');
+          }
+        }),
+        catchError((error) => {
+          const errorMessage = error?.error?.message
+            ? error.error.message
+            : 'Ha ocurrido un error desconocido';
+          return throwError(() => new Error(errorMessage));
+        }),
+      );
+  }
+
   logout(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('userData');

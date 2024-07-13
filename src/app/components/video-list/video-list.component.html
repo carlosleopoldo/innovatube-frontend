@@ -1,1 +1,94 @@
-<p>video-list works!</p>
+<main class="min-h-screen bg-slate-50 dark:bg-slate-800">
+  <div class="w-full bg-slate-200 shadow-lg dark:bg-slate-700">
+    <div class="mx-auto flex max-w-screen-xl flex-wrap p-2">
+      <div
+        class="order-1 w-1/3 md:order-1 md:w-1/6 md:items-center md:justify-center"
+      >
+        <a
+          routerLink="/videos"
+          class="flex h-12 cursor-pointer items-center justify-center text-lg font-semibold md:text-xl dark:text-white"
+        >
+          <img
+            src="/assets/images/innovatube.png"
+            class="h-6 w-6 rounded-md"
+            alt="InnovaTube Logo"
+          />
+          <span
+            class="text-primary-600 ml-1 inline-block self-center whitespace-nowrap font-medium leading-8 dark:text-white"
+          >
+            <span class="text-yellow-600">Innova</span
+            ><span class="text-red-400 dark:text-white">Tube</span>
+          </span>
+        </a>
+      </div>
+
+      <div class="order-3 w-full md:order-2 md:w-3/6">
+        <div
+          class="flex items-center justify-between gap-2 rounded-md border px-1.5 py-2 text-slate-900 dark:text-white"
+          [class.border-slate-300]="!isInputFocused"
+          [class.bg-slate-100]="!isInputFocused"
+          [class.dark:border-slate-600]="!isInputFocused"
+          [class.dark:bg-slate-800]="!isInputFocused"
+          [class.border-slate-200]="isInputFocused"
+          [class.bg-slate-50]="isInputFocused"
+          [class.ring-2]="isInputFocused"
+          [class.ring-slate-400]="isInputFocused"
+          [class.dark:border-slate-700]="isInputFocused"
+          [class.dark:bg-slate-900]="isInputFocused"
+          [class.dark:ring-slate-500]="isInputFocused"
+        >
+          <div
+            class="inline-flex items-center justify-center pl-2 text-sm text-slate-400"
+          >
+            <i class="pi pi-search"></i>
+          </div>
+          <div class="flex flex-1">
+            <ul class="flex flex-1 flex-wrap gap-2">
+              <li class="flex-1">
+                <input
+                  #searchInput
+                  placeholder="Buscar videos"
+                  autocomplete="off"
+                  autocorrect="off"
+                  spellcheck="false"
+                  aria-autocomplete="list"
+                  role="combobox"
+                  aria-expanded="true"
+                  type="text"
+                  class="h-full min-h-8 w-full border-transparent bg-transparent text-lg outline-none ring-transparent placeholder:text-slate-600 focus:outline-none focus:ring-transparent dark:placeholder:text-slate-400"
+                  (focus)="onInputFocus()"
+                  (blur)="onInputBlur()"
+                />
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="w-full md:hidden"></div>
+
+      <div
+        class="order-2 flex w-2/3 justify-end gap-4 md:order-3 md:w-2/6 md:items-end"
+      >
+        <p-button [text]="true" class="hidden md:flex" routerLink="/favorites">
+          <i class="pi pi-heart text-slate-800 dark:text-slate-50"></i>
+          <span class="text-slate-800 dark:text-slate-50">
+            <span class="ml-2 hidden lg:inline-block">Favoritos</span>
+            &nbsp;
+          </span>
+        </p-button>
+        <p-button (onClick)="userMenu.toggle($event)" [text]="true">
+          <i class="pi pi-user text-slate-800 dark:text-slate-50"></i>
+          <span
+            class="mx-2 inline-block truncate text-slate-800 md:max-w-20 lg:max-w-28 dark:text-slate-50"
+            >{{ userData.name }}</span
+          >
+          <i
+            class="pi pi-chevron-down text-xs text-slate-500 dark:text-slate-100"
+          ></i>
+        </p-button>
+        <p-menu #userMenu [model]="menuItems" [popup]="true" />
+      </div>
+    </div>
+  </div>
+</main>

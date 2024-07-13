@@ -1,19 +1,20 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MenuItem, Message } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { MenuModule } from 'primeng/menu';
+import { Observer } from 'rxjs';
 
 import { AuthService } from '../../services/auth.service';
-import { VideoType } from '../../types/video.type';
 import { VideosService } from '../../services/videos.service';
-import { Observer } from 'rxjs';
+import { VideoType } from '../../types/video.type';
 
 @Component({
   selector: 'app-favorite-list',
   standalone: true,
-  imports: [CommonModule, MenuModule, ButtonModule],
+  imports: [CommonModule, FormsModule, MenuModule, ButtonModule],
   templateUrl: './favorite-list.component.html',
   styleUrl: './favorite-list.component.scss',
 })
@@ -26,6 +27,8 @@ export class FavoriteListComponent implements OnInit {
   displayPlayer: boolean = false;
   videoUrl: string = '';
   videoTitle: string = '';
+  filteredVideos: any[] = [];
+  searchQuery = '';
 
   constructor(
     private authService: AuthService,
@@ -71,6 +74,7 @@ export class FavoriteListComponent implements OnInit {
     this.videosService.getFavoriteVideos().subscribe({
       next: (data) => {
         this.videos = data;
+        this.filteredVideos = data;
         this.cdr.detectChanges();
       },
       error: (error) => {
@@ -88,6 +92,19 @@ export class FavoriteListComponent implements OnInit {
       },
       complete: () => {},
     } as Observer<any>);
+  }
+
+  applyFilter(): void {
+    const lowerCaseQuery = this.searchQuery.toLowerCase().trim();
+
+    this.filteredVideos = this.videos.filter((video) =>
+      video.title.toLowerCase().includes(lowerCaseQuery),
+    );
+  }
+
+  clearFilter(): void {
+    this.searchQuery = '';
+    this.filteredVideos = [...this.videos];
   }
 
   unmarkAsFavorite(video: VideoType) {

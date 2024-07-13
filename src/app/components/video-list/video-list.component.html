@@ -119,7 +119,7 @@
       } @else {
         <div class="container mx-auto p-4">
           <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4">
-            @for (video of searchResults; track video) {
+            @for (video of searchResults; track video.id) {
               <div
                 class="flex flex-col overflow-hidden rounded bg-white shadow-md dark:bg-slate-950"
                 (click)="openVideoPlayer(video)"
@@ -145,12 +145,23 @@
                     <i class="pi pi-youtube"></i>
                     Ver en YouTube
                   </a>
-                  <button
-                    (click)="markAsFavorite(video); $event.stopPropagation()"
-                    class="mt-4 w-full rounded border border-blue-500 px-4 py-2 text-blue-500 hover:bg-blue-500 hover:text-white"
-                  >
-                    <i class="pi pi-heart"></i> Marcar como Favorito
-                  </button>
+                  @if (video.isFavorite) {
+                    <button
+                      (click)="unmarkAsFavorite(video); $event.stopPropagation()"
+                      class="mt-4 w-full rounded border border-blue-500 px-4 py-2 text-blue-500 hover:bg-blue-500 hover:text-white"
+                    >
+                      <i class="pi pi-heart-fill"></i>
+                      Quitar de favoritos
+                    </button>
+                  } @else {
+                    <button
+                      (click)="markAsFavorite(video); $event.stopPropagation()"
+                      class="mt-4 w-full rounded border border-blue-500 px-4 py-2 text-blue-500 hover:bg-blue-500 hover:text-white"
+                    >
+                      <i class="pi pi-heart"></i>
+                      Marcar como Favorito
+                    </button>
+                  }
                 </div>
               </div>
             }

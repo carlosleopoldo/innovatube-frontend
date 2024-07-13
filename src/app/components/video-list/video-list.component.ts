@@ -24,6 +24,7 @@ import {
 import { AuthService } from '../../services/auth.service';
 import { YoutubeService } from '../../services/youtube.service';
 import { VideoType } from '../../types/video.type';
+import { VideosService } from '../../services/videos.service';
 
 @Component({
   selector: 'app-video-list',
@@ -50,6 +51,7 @@ export class VideoListComponent implements OnInit, AfterViewInit {
     private router: Router,
     private cdr: ChangeDetectorRef,
     private youtubeService: YoutubeService,
+    private videosService: VideosService,
     public sanitizer: DomSanitizer,
   ) {
     this.userData = authService.getUserData();
@@ -124,7 +126,6 @@ export class VideoListComponent implements OnInit, AfterViewInit {
     this.youtubeService.searchVideos(query).subscribe({
       next: (data) => {
         this.searchResults = data;
-        console.log(this.searchResults);
         this.loading = false;
         this.cdr.detectChanges();
       },
@@ -144,8 +145,48 @@ export class VideoListComponent implements OnInit, AfterViewInit {
     } as Observer<any>);
   }
 
-  markAsFavorite(video: any) {
-    console.log('Video marcado como favorito:', video);
+  markAsFavorite(video: VideoType) {
+    this.videosService.markAsFavorite(video).subscribe({
+      next: (data) => {
+        video.isFavorite = true;
+        this.cdr.detectChanges();
+      },
+      error: (error) => {
+        this.messages = [
+          {
+            severity: 'error',
+            detail: error?.message
+              ? error.message
+              : 'Error. Por favor, inténtalo de nuevo.',
+          },
+        ];
+        this.loading = false;
+        this.cdr.detectChanges();
+      },
+      complete: () => {},
+    } as Observer<any>);
+  }
+
+  unmarkAsFavorite(video: VideoType) {
+    this.videosService.unmarkAsFavorite(video).subscribe({
+      next: (data) => {
+        video.isFavorite = false;
+        this.cdr.detectChanges();
+      },
+      error: (error) => {
+        this.messages = [
+          {
+            severity: 'error',
+            detail: error?.message
+              ? error.message
+              : 'Error. Por favor, inténtalo de nuevo.',
+          },
+        ];
+        this.loading = false;
+        this.cdr.detectChanges();
+      },
+      complete: () => {},
+    } as Observer<any>);
   }
 
   openVideoPlayer(video: any) {

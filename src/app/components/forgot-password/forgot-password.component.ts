@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -33,7 +33,7 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './forgot-password.component.html',
   styleUrl: './forgot-password.component.scss',
 })
-export class ForgotPasswordComponent implements OnDestroy {
+export class ForgotPasswordComponent implements OnDestroy, OnInit {
   forgotPasswordForm: FormGroup;
   messages: Message[] = [];
   private subscription: Subscription = new Subscription();
@@ -50,6 +50,10 @@ export class ForgotPasswordComponent implements OnDestroy {
       email: new FormControl('', [Validators.required, Validators.email]),
       recaptcha: new FormControl('', Validators.required),
     });
+  }
+
+  ngOnInit(): void {
+    this.authService.wakeUp().subscribe();
   }
 
   submitForm(): void {

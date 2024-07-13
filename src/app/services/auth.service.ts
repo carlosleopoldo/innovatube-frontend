@@ -27,6 +27,19 @@ export class AuthService {
     }
   }
 
+  wakeUp(): Observable<any> {
+    return this.http.get<{ token: string }>(this.apiUrl).pipe(
+      tap((response) => {
+        if (!response) {
+          console.log('API no responde');
+        }
+      }),
+      catchError((error) => {
+        return throwError(() => new Error('API no responde'));
+      }),
+    );
+  }
+
   login(user: string, password: string): Observable<any> {
     return this.http
       .post<{ token: string }>(`${this.apiUrl}/login`, {

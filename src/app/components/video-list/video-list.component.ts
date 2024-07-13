@@ -84,6 +84,7 @@ export class VideoListComponent implements OnInit, AfterViewInit {
         ],
       },
     ];
+    this.authService.wakeUp().subscribe();
   }
 
   ngAfterViewInit() {

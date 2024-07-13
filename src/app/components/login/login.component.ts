@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -29,7 +29,7 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
-export class LoginComponent implements OnDestroy {
+export class LoginComponent implements OnDestroy, OnInit {
   loginForm: FormGroup;
   messages: Message[] = [];
   private subscription: Subscription = new Subscription();
@@ -44,6 +44,10 @@ export class LoginComponent implements OnDestroy {
       user: new FormControl('', Validators.required),
       password: new FormControl('', Validators.required),
     });
+  }
+
+  ngOnInit(): void {
+    this.authService.wakeUp().subscribe();
   }
 
   login(): void {

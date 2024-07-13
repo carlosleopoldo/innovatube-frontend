@@ -125,7 +125,7 @@ export class AuthService {
     return this.http
       .post<{
         data: any;
-      }>(`${this.apiUrl}/reset-password`, { token, password })
+      }>(`${this.apiUrl}/reset-password/${token}`, { password })
       .pipe(
         tap((response) => {
           if (!response.data) {

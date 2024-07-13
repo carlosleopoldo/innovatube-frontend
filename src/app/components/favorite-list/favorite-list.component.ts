@@ -5,17 +5,20 @@ import { ButtonModule } from 'primeng/button';
 import { MenuModule } from 'primeng/menu';
 
 import { AuthService } from '../../services/auth.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-favorite-list',
   standalone: true,
-  imports: [MenuModule, ButtonModule],
+  imports: [CommonModule, MenuModule, ButtonModule],
   templateUrl: './favorite-list.component.html',
   styleUrl: './favorite-list.component.scss',
 })
 export class FavoriteListComponent implements OnInit {
   menuItems: MenuItem[] | undefined;
   userData: any;
+  loading: boolean = false;
+  videos: any[] = [];
 
   constructor(
     private authService: AuthService,

@@ -4,9 +4,7 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  OnChanges,
   OnInit,
-  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -25,6 +23,7 @@ import {
 
 import { AuthService } from '../../services/auth.service';
 import { YoutubeService } from '../../services/youtube.service';
+import { VideoType } from '../../types/video.type';
 
 @Component({
   selector: 'app-video-list',
@@ -38,7 +37,7 @@ export class VideoListComponent implements OnInit, AfterViewInit {
   userData: any;
   isInputFocused: boolean = false;
   loading: boolean = false;
-  searchResults: any[] = [];
+  searchResults: VideoType[] = [];
   @ViewChild('searchInput', { static: true })
   searchInput!: ElementRef<HTMLInputElement>;
   messages: Message[] = [];

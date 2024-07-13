@@ -4,17 +4,20 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MenuItem, Message } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
+import { DialogModule } from 'primeng/dialog';
 import { MenuModule } from 'primeng/menu';
 import { Observer } from 'rxjs';
 
 import { AuthService } from '../../services/auth.service';
 import { VideosService } from '../../services/videos.service';
 import { VideoType } from '../../types/video.type';
+import { DomSanitizer } from '@angular/platform-browser';
+import { YoutubeService } from '../../services/youtube.service';
 
 @Component({
   selector: 'app-favorite-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, MenuModule, ButtonModule],
+  imports: [CommonModule, FormsModule, MenuModule, ButtonModule, DialogModule],
   templateUrl: './favorite-list.component.html',
   styleUrl: './favorite-list.component.scss',
 })
@@ -33,8 +36,10 @@ export class FavoriteListComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
+    private youtubeService: YoutubeService,
     private videosService: VideosService,
     private cdr: ChangeDetectorRef,
+    public sanitizer: DomSanitizer,
   ) {
     this.userData = authService.getUserData();
   }
@@ -131,8 +136,9 @@ export class FavoriteListComponent implements OnInit {
     } as Observer<any>);
   }
 
-  openVideoPlayer(video: any) {
-    this.videoUrl = `https://www.youtube.com/embed/${video.id}?autoplay=1`;
+  openVideoPlayer(video: VideoType) {
+    const videoId = this.youtubeService.getYouTubeVideoId(video.link);
+    this.videoUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
     this.videoTitle = video.title;
     this.displayPlayer = true;
   }

@@ -151,6 +151,20 @@
           </div>
         </div>
       }
+      <p-dialog
+        [header]="videoTitle"
+        [(visible)]="displayPlayer"
+        [modal]="true"
+        styleClass="w-full md:2/3 lg:w-1/2"
+        [closable]="true"
+      >
+        <iframe
+          [src]="sanitizer.bypassSecurityTrustResourceUrl(videoUrl)"
+          frameborder="0"
+          allowfullscreen
+          class="h-64 w-full md:h-96"
+        ></iframe>
+      </p-dialog>
     </div>
   </section>
 </main>

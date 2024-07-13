@@ -43,24 +43,20 @@
             <i class="pi pi-search"></i>
           </div>
           <div class="flex flex-1">
-            <ul class="flex flex-1 flex-wrap gap-2">
-              <li class="flex-1">
-                <input
-                  #searchInput
-                  placeholder="Buscar videos"
-                  autocomplete="off"
-                  autocorrect="off"
-                  spellcheck="false"
-                  aria-autocomplete="list"
-                  role="combobox"
-                  aria-expanded="true"
-                  type="text"
-                  class="h-full min-h-8 w-full border-transparent bg-transparent text-lg outline-none ring-transparent placeholder:text-slate-600 focus:outline-none focus:ring-transparent dark:placeholder:text-slate-400"
-                  (focus)="onInputFocus()"
-                  (blur)="onInputBlur()"
-                />
-              </li>
-            </ul>
+            <input
+              #searchInput
+              placeholder="Buscar videos"
+              autocomplete="off"
+              autocorrect="off"
+              spellcheck="false"
+              aria-autocomplete="list"
+              role="combobox"
+              aria-expanded="true"
+              type="text"
+              class="h-full min-h-8 w-full border-transparent bg-transparent text-lg outline-none ring-transparent placeholder:text-slate-600 focus:outline-none focus:ring-transparent dark:placeholder:text-slate-400"
+              (focus)="onInputFocus()"
+              (blur)="onInputBlur()"
+            />
           </div>
         </div>
       </div>

@@ -70,7 +70,7 @@ export class AuthService {
       })
       .pipe(
         tap((response) => {
-          if (!response.data) {
+          if (!response) {
             throw new Error('No se pudo registrar el usuario');
           }
         }),
@@ -90,7 +90,7 @@ export class AuthService {
       })
       .pipe(
         tap((response) => {
-          if (!response.data) {
+          if (!response) {
             throw new Error('No se pudo solicitar cambio de contraseña');
           }
         }),

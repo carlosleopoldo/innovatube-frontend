@@ -27,7 +27,7 @@ import { CommonModule } from '@angular/common';
     MessagesModule,
     PasswordModule,
     InputTextModule,
-    CommonModule
+    CommonModule,
   ],
   templateUrl: './reset-password.component.html',
   styleUrls: ['./reset-password.component.scss'],
@@ -35,6 +35,7 @@ import { CommonModule } from '@angular/common';
 export class ResetPasswordComponent implements OnInit, OnDestroy {
   resetPasswordForm: FormGroup;
   messages: Message[] = [];
+  errorVerify: string = '';
   private subscription: Subscription = new Subscription();
   loading: boolean = false;
   token: string = '';
@@ -73,14 +74,9 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
       },
       error: (error) => {
         this.tokenValid = false;
-        this.messages = [
-          {
-            severity: 'error',
-            detail: error?.message
-              ? error.message
-              : 'Token inválido o expirado',
-          },
-        ];
+        this.errorVerify = error?.message
+          ? error.message
+          : 'Token inválido o expirado';
         this.cdr.detectChanges();
       },
       complete: () => {},

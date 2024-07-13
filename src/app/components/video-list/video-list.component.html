@@ -76,7 +76,7 @@
         <p-button (onClick)="userMenu.toggle($event)" [text]="true">
           <i class="pi pi-user text-slate-800 dark:text-slate-50"></i>
           <span
-            class="mx-2 inline-block truncate text-slate-800 md:max-w-20 lg:max-w-28 dark:text-slate-50"
+            class="mx-2 inline-block max-w-20 truncate text-slate-800 lg:max-w-28 dark:text-slate-50"
             >{{ userData.name }}</span
           >
           <i
@@ -91,7 +91,7 @@
     <div class="mx-auto flex max-w-screen-xl flex-wrap p-2">
       @if (searchResults.length === 0) {
         <div
-          class="mx-auto flex h-[calc(100vh-8rem)] flex-col items-center justify-center px-6 xl:px-0 dark:bg-slate-900"
+          class="mx-auto flex h-[calc(100vh-8rem)] flex-col items-center justify-center px-6 xl:px-0"
         >
           <div class="block md:max-w-lg">
             <img
@@ -117,8 +117,60 @@
           </div>
         </div>
       } @else {
-        <pre>{{ searchResults | json }}</pre>
+        <div class="container mx-auto p-4">
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4">
+            @for (video of searchResults; track video) {
+              <div
+                class="flex flex-col overflow-hidden rounded bg-white shadow-md dark:bg-slate-950"
+                (click)="openVideoPlayer(video)"
+              >
+                <div class="cursor-pointer">
+                  <img
+                    [src]="video.thumbnails.high.url"
+                    alt="{{ video.title }}"
+                    class="h-48 w-full object-cover"
+                  />
+                </div>
+                <h2
+                  class="mb-2 flex-1 cursor-pointer p-4 text-lg font-semibold dark:text-slate-100"
+                >
+                  {{ video.title }}
+                </h2>
+                <div class="p-4">
+                  <a
+                    [href]="video.link"
+                    target="_blank"
+                    class="text-sm text-slate-500 hover:underline dark:text-slate-400"
+                  >
+                    <i class="pi pi-youtube"></i>
+                    Ver en YouTube
+                  </a>
+                  <button
+                    (click)="markAsFavorite(video); $event.stopPropagation()"
+                    class="mt-4 w-full rounded border border-blue-500 px-4 py-2 text-blue-500 hover:bg-blue-500 hover:text-white"
+                  >
+                    <i class="pi pi-heart"></i> Marcar como Favorito
+                  </button>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
       }
+      <p-dialog
+        [header]="videoTitle"
+        [(visible)]="displayPlayer"
+        [modal]="true"
+        styleClass="w-full md:2/3 lg:w-1/2"
+        [closable]="true"
+      >
+        <iframe
+          [src]="sanitizer.bypassSecurityTrustResourceUrl(videoUrl)"
+          frameborder="0"
+          allowfullscreen
+          class="h-64 w-full md:h-96"
+        ></iframe>
+      </p-dialog>
     </div>
   </section>
 </main>

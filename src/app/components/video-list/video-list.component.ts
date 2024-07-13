@@ -4,12 +4,16 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  OnChanges,
   OnInit,
+  SimpleChanges,
   ViewChild,
 } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { MenuItem, Message } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
+import { DialogModule } from 'primeng/dialog';
 import { MenuModule } from 'primeng/menu';
 import { fromEvent, Observer } from 'rxjs';
 import {
@@ -25,7 +29,7 @@ import { YoutubeService } from '../../services/youtube.service';
 @Component({
   selector: 'app-video-list',
   standalone: true,
-  imports: [CommonModule, MenuModule, ButtonModule],
+  imports: [CommonModule, MenuModule, DialogModule, ButtonModule],
   templateUrl: './video-list.component.html',
   styleUrl: './video-list.component.scss',
 })
@@ -38,12 +42,16 @@ export class VideoListComponent implements OnInit, AfterViewInit {
   @ViewChild('searchInput', { static: true })
   searchInput!: ElementRef<HTMLInputElement>;
   messages: Message[] = [];
+  displayPlayer: boolean = false;
+  videoUrl: string = '';
+  videoTitle: string = '';
 
   constructor(
     private authService: AuthService,
     private router: Router,
     private cdr: ChangeDetectorRef,
     private youtubeService: YoutubeService,
+    public sanitizer: DomSanitizer,
   ) {
     this.userData = authService.getUserData();
   }
@@ -135,5 +143,15 @@ export class VideoListComponent implements OnInit, AfterViewInit {
       },
       complete: () => {},
     } as Observer<any>);
+  }
+
+  markAsFavorite(video: any) {
+    console.log('Video marcado como favorito:', video);
+  }
+
+  openVideoPlayer(video: any) {
+    this.videoUrl = `https://www.youtube.com/embed/${video.id}?autoplay=1`;
+    this.videoTitle = video.title;
+    this.displayPlayer = true;
   }
 }

@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   OnInit,
@@ -29,6 +30,7 @@ export class VideoListComponent implements OnInit, AfterViewInit {
   constructor(
     private authService: AuthService,
     private router: Router,
+    private cdr: ChangeDetectorRef,
   ) {
     this.userData = authService.getUserData();
   }
@@ -64,6 +66,7 @@ export class VideoListComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.focusInput();
+    this.cdr.detectChanges();
   }
 
   public focusInput(): void {
